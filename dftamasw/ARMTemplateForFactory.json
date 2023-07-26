@@ -758,6 +758,71 @@
 				"[concat(variables('factoryId'), '/datasets/st_nycpayroll_2021')]",
 				"[concat(variables('factoryId'), '/datasets/sqldb_nycpayroll_2021')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_EmpMasterStToSyn')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "st_EmpMaster",
+								"type": "DatasetReference"
+							},
+							"name": "EmpMasterSt"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "syndb_NYC_Payroll_EMP_MD",
+								"type": "DatasetReference"
+							},
+							"name": "EmpMasterSyn"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          EmployeeID as string,",
+						"          LastName as string,",
+						"          FirstName as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> EmpMasterSt",
+						"EmpMasterSt sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          EmployeeID as string,",
+						"          LastName as string,",
+						"          FirstName as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     staged: true,",
+						"     allowCopyCommand: true,",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          EmployeeID,",
+						"          LastName,",
+						"          FirstName",
+						"     )) ~> EmpMasterSyn"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/st_EmpMaster')]",
+				"[concat(variables('factoryId'), '/datasets/syndb_NYC_Payroll_EMP_MD')]"
+			]
 		}
 	]
 }
