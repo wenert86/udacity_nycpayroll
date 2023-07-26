@@ -19,6 +19,13 @@
 						"referenceName": "df_Payroll2021SqlToSyn",
 						"type": "DataFlowReference"
 					},
+					"staging": {
+						"linkedService": {
+							"referenceName": "storagetamasw",
+							"type": "LinkedServiceReference"
+						},
+						"folderPath": "adlsnycpayroll-tamas-w/dirstaging"
+					},
 					"compute": {
 						"coreCount": 8,
 						"computeType": "General"

@@ -19,6 +19,13 @@
 						"referenceName": "df_AgencyMasterStToSyn",
 						"type": "DataFlowReference"
 					},
+					"staging": {
+						"linkedService": {
+							"referenceName": "storagetamasw",
+							"type": "LinkedServiceReference"
+						},
+						"folderPath": "adlsnycpayroll-tamas-w/dirstaging"
+					},
 					"compute": {
 						"coreCount": 8,
 						"computeType": "General"
