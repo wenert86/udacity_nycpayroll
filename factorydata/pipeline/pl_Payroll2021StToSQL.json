@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "Payroll2021StToSQL",
+						"referenceName": "df_Payroll2021StToSQL",
 						"type": "DataFlowReference"
 					},
 					"compute": {
