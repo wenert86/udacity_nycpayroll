@@ -1,0 +1,56 @@
+{
+	"name": "df_AgencyMasterStToSyn",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "st_AgencyMaster",
+						"type": "DatasetReference"
+					},
+					"name": "AgencyMasterSt"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "syndb_NYC_Payroll_AGENCY_MD",
+						"type": "DatasetReference"
+					},
+					"name": "AgencyMasterSyn"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          AgencyID as string,",
+				"          AgencyName as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> AgencyMasterSt",
+				"AgencyMasterSt sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          AgencyID as string,",
+				"          AgencyName as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     staged: true,",
+				"     allowCopyCommand: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          AgencyID,",
+				"          AgencyName",
+				"     )) ~> AgencyMasterSyn"
+			]
+		}
+	}
+}
