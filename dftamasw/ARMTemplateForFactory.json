@@ -48,7 +48,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "Payroll2021StToSQL",
+								"referenceName": "df_Payroll2021StToSQL",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
@@ -72,7 +72,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/Payroll2021StToSQL')]"
+				"[concat(variables('factoryId'), '/dataflows/df_Payroll2021StToSQL')]"
 			]
 		},
 		{
@@ -649,7 +649,72 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Payroll2021StToSQL')]",
+			"name": "[concat(parameters('factoryName'), '/df_EmpMasterStToSyn')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "st_EmpMaster",
+								"type": "DatasetReference"
+							},
+							"name": "EmpMasterSt"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "syndb_NYC_Payroll_EMP_MD",
+								"type": "DatasetReference"
+							},
+							"name": "EmpMasterSyn"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          EmployeeID as string,",
+						"          LastName as string,",
+						"          FirstName as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> EmpMasterSt",
+						"EmpMasterSt sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          EmployeeID as string,",
+						"          LastName as string,",
+						"          FirstName as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     staged: true,",
+						"     allowCopyCommand: true,",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          EmployeeID,",
+						"          LastName,",
+						"          FirstName",
+						"     )) ~> EmpMasterSyn"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/st_EmpMaster')]",
+				"[concat(variables('factoryId'), '/datasets/syndb_NYC_Payroll_EMP_MD')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_Payroll2021StToSQL')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -760,7 +825,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/df_EmpMasterStToSyn')]",
+			"name": "[concat(parameters('factoryName'), '/df_TitleMasterStToSyn')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -769,37 +834,35 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "st_EmpMaster",
+								"referenceName": "st_TitleMaster",
 								"type": "DatasetReference"
 							},
-							"name": "EmpMasterSt"
+							"name": "TitleMasterSt"
 						}
 					],
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "syndb_NYC_Payroll_EMP_MD",
+								"referenceName": "syndb_NYC_Payroll_TITLE_MD",
 								"type": "DatasetReference"
 							},
-							"name": "EmpMasterSyn"
+							"name": "TitleMasterSyn"
 						}
 					],
 					"transformations": [],
 					"scriptLines": [
 						"source(output(",
-						"          EmployeeID as string,",
-						"          LastName as string,",
-						"          FirstName as string",
+						"          TitleCode as string,",
+						"          TitleDescription as string",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> EmpMasterSt",
-						"EmpMasterSt sink(allowSchemaDrift: true,",
+						"     ignoreNoFilesFound: false) ~> TitleMasterSt",
+						"TitleMasterSt sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
-						"          EmployeeID as string,",
-						"          LastName as string,",
-						"          FirstName as string",
+						"          TitleCode as string,",
+						"          TitleDescription as string",
 						"     ),",
 						"     deletable:false,",
 						"     insertable:true,",
@@ -812,16 +875,15 @@
 						"     skipDuplicateMapOutputs: true,",
 						"     errorHandlingOption: 'stopOnFirstError',",
 						"     mapColumn(",
-						"          EmployeeID,",
-						"          LastName,",
-						"          FirstName",
-						"     )) ~> EmpMasterSyn"
+						"          TitleCode,",
+						"          TitleDescription",
+						"     )) ~> TitleMasterSyn"
 					]
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/st_EmpMaster')]",
-				"[concat(variables('factoryId'), '/datasets/syndb_NYC_Payroll_EMP_MD')]"
+				"[concat(variables('factoryId'), '/datasets/st_TitleMaster')]",
+				"[concat(variables('factoryId'), '/datasets/syndb_NYC_Payroll_TITLE_MD')]"
 			]
 		}
 	]
