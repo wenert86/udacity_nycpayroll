@@ -1076,7 +1076,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Data flow1",
+						"name": "Agency",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -1112,7 +1112,7 @@
 						}
 					},
 					{
-						"name": "Data flow2",
+						"name": "Emloyee",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -1148,7 +1148,7 @@
 						}
 					},
 					{
-						"name": "Data flow3",
+						"name": "Title",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -1184,23 +1184,23 @@
 						}
 					},
 					{
-						"name": "Data flow4",
+						"name": "Payroll",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [
 							{
-								"activity": "Data flow1",
+								"activity": "Agency",
 								"dependencyConditions": [
 									"Succeeded"
 								]
 							},
 							{
-								"activity": "Data flow2",
+								"activity": "Emloyee",
 								"dependencyConditions": [
 									"Succeeded"
 								]
 							},
 							{
-								"activity": "Data flow3",
+								"activity": "Title",
 								"dependencyConditions": [
 									"Succeeded"
 								]
