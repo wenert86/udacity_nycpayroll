@@ -1016,7 +1016,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pl_Payroll2021StToSQL')]",
+			"name": "[concat(parameters('factoryName'), '/pl_AgencyMasterStToSyn')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1035,15 +1035,21 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "df_Payroll2021StToSQL",
+								"referenceName": "df_AgencyMasterStToSyn",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
-									"Payroll2021DataSt": {},
-									"Payroll2021DataSQL": {}
+									"AgencyMasterSt": {},
+									"AgencyMasterSyn": {}
 								}
 							},
-							"staging": {},
+							"staging": {
+								"linkedService": {
+									"referenceName": "storagetamasw",
+									"type": "LinkedServiceReference"
+								},
+								"folderPath": "adlsnycpayroll-tamas-w/dirstaging"
+							},
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"
@@ -1059,7 +1065,116 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/df_Payroll2021StToSQL')]"
+				"[concat(variables('factoryId'), '/dataflows/df_AgencyMasterStToSyn')]",
+				"[concat(variables('factoryId'), '/linkedServices/storagetamasw')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_EmpMasterStToSyn')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "df_EmpMasterStToSyn",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"EmpMasterSt": {},
+									"EmpMasterSyn": {}
+								}
+							},
+							"staging": {
+								"linkedService": {
+									"referenceName": "storagetamasw",
+									"type": "LinkedServiceReference"
+								},
+								"folderPath": "adlsnycpayroll-tamas-w/dirstaging"
+							},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/df_EmpMasterStToSyn')]",
+				"[concat(variables('factoryId'), '/linkedServices/storagetamasw')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_Payroll2021SqlToSyn')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "df_Payroll2021SqlToSyn",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"Payroll2021Sql": {},
+									"Payroll2021Syn": {}
+								}
+							},
+							"staging": {
+								"linkedService": {
+									"referenceName": "storagetamasw",
+									"type": "LinkedServiceReference"
+								},
+								"folderPath": "adlsnycpayroll-tamas-w/dirstaging"
+							},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/df_Payroll2021SqlToSyn')]",
+				"[concat(variables('factoryId'), '/linkedServices/storagetamasw')]"
 			]
 		}
 	]
