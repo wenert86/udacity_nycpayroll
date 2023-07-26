@@ -1,5 +1,5 @@
 {
-	"name": "dataflow1",
+	"name": "Payroll2021StToSQL",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
