@@ -855,7 +855,7 @@
 					],
 					"scriptLines": [
 						"parameters{",
-						"     FiscalYear as integer (2020)",
+						"     df_param_FiscalYear as integer (2020)",
 						"}",
 						"source(output(",
 						"          FiscalYear as integer,",
@@ -929,7 +929,7 @@
 						"     ),",
 						"     errors: true) ~> CastPayroll2020",
 						"CastPayroll2020, Payroll2021 union(byName: true)~> UnionPayrolls",
-						"UnionPayrolls filter(toInteger(FiscalYear) >= $FiscalYear) ~> FilterFiscalYear",
+						"UnionPayrolls filter(toInteger(FiscalYear) >= $df_param_FiscalYear) ~> FilterFiscalYear",
 						"FilterFiscalYear derive(TotalPaid = RegularGrossPaid+TotalOTPaid+TotalOtherPay) ~> DerivedColTotPaid",
 						"DerivedColTotPaid aggregate(groupBy(AgencyName,",
 						"          FiscalYear),",
