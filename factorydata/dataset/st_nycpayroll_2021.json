@@ -1,5 +1,5 @@
 {
-	"name": "nycpayroll_2021",
+	"name": "st_nycpayroll_2021",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "storagetamasw",

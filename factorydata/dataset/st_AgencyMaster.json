@@ -1,5 +1,5 @@
 {
-	"name": "AgencyMaster",
+	"name": "st_AgencyMaster",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "storagetamasw",

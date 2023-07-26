@@ -1,5 +1,5 @@
 {
-	"name": "EmpMaster",
+	"name": "st_EmpMaster",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "storagetamasw",
