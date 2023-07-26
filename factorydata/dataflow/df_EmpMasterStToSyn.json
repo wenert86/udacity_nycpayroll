@@ -1,0 +1,59 @@
+{
+	"name": "df_EmpMasterStToSyn",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "st_EmpMaster",
+						"type": "DatasetReference"
+					},
+					"name": "EmpMasterSt"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "syndb_NYC_Payroll_EMP_MD",
+						"type": "DatasetReference"
+					},
+					"name": "EmpMasterSyn"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          EmployeeID as string,",
+				"          LastName as string,",
+				"          FirstName as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> EmpMasterSt",
+				"EmpMasterSt sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          EmployeeID as string,",
+				"          LastName as string,",
+				"          FirstName as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     staged: true,",
+				"     allowCopyCommand: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          EmployeeID,",
+				"          LastName,",
+				"          FirstName",
+				"     )) ~> EmpMasterSyn"
+			]
+		}
+	}
+}
